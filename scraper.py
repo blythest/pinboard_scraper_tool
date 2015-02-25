@@ -6,8 +6,8 @@ import datetime
 from newspaper import Config, Article, Source
 import smtplib
 
-PB_USERNAME = "blythest"
-PB_PASSWORD = "dPYcpjHQ"
+PB_USERNAME = "******"
+PB_PASSWORD = "******"
 PB_URL = "https://api.pinboard.in/v1/posts/all?format=json"
 
 class Pinboard_Connection:
