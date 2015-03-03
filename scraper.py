@@ -1,48 +1,32 @@
 #!/usr/local/bin/python3
-
-import requests
-import json
 import datetime
 from newspaper import Config, Article, Source
-import smtplib
 
-PB_USERNAME = "******"
-PB_PASSWORD = "*****"
-PB_URL = "https://api.pinboard.in/v1/posts/all?format=json"
+class Pin_Article():
 
-class Connection:
-  def __init__(self):
-    self.data = requests.get(PB_URL, auth=(PB_USERNAME, PB_PASSWORD))
-    self.links = self.create_pinboard_links()
-    self.today = self.pintime_today()
-
-  def pintime_today(self):
+  def pintime_interval(self):
     today = datetime.date.today()
     format = "%Y-%m-%d"
     return today.strftime(format)
 
-  def create_pinboard_links(self):
-    pinboard_json = self.convert_pins_to_json()
+  def __links__(self):
+    pinboard_json = Connection().data
     for pin in pinboard_json:
-      if self.pintime_today() in pin['time']:
+      if self.pintime_interval() in pin['time']:
         yield(pin['href'])
 
-  def convert_pins_to_json(self):
-    pin_articles = ''
-    pinboard_json = json.loads(self.data.text)
-    return pinboard_json
-
-class Articles_Info(Connection):
-
-  def articles(self):
-    for link in self.links:
+  def __all_text__(self):
+    for link in self.__links__():
       pin_article = Article(link)
       pin_article.download()
       pin_article.parse()
-      yield(pin_article.html)
+      yield(pin_article.text)
 
 
+if __name__== "__main__":
 
-pinboard_articles = Articles_Info()
-for p in pinboard_articles.articles():
-  print(p)
+  from connection import Connection
+
+  pins = Pin_Article()
+  for article in pins.__all_text__():
+    print(article)
