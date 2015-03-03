@@ -12,7 +12,7 @@ class Connection:
     creds = {"url":user_info['PB_URL'], "pw":user_info['PB_PASSWORD'], "user":user_info['PB_USERNAME']}
     return(creds)
 
-  def __is_connected__(self):
+  def is_connected(self):
     creds = self.__secret__()
     data = requests.get(creds['url'], auth=(creds['user'], creds['pw']))
     if data:
@@ -21,6 +21,6 @@ class Connection:
       return(False)
 
   def __get_json_data__(self):
-    data = self.__is_connected__()
+    data = self.is_connected()
     pinboard_json = json.loads(data.text)
     return(pinboard_json)
