@@ -16,9 +16,9 @@ class Connection:
     creds = self.__secret__()
     data = requests.get(creds['url'], auth=(creds['user'], creds['pw']))
     if data:
-      return(data)
+      return(True)
     else:
-      return("<Response [400]> Error.")
+      return(False)
 
   def __get_json_data__(self):
     data = self.__is_connected__()
